@@ -1,0 +1,32 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/mujaluddin/spring-petclinic123.git'
+            }
+        }
+
+        stage('Verify Clone') {
+            steps {
+                sh 'pwd'
+                sh 'ls -ltr'
+                sh 'find . -name pom.xml'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh '/opt/maven/apache-maven-3.9.16/bin/mvn clean package'
+            }
+        }
+
+        stage('Verify Artifact') {
+            steps {
+                sh 'ls -ltr target/'
+            }
+        }
+    }
+}
